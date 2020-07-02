@@ -5,7 +5,7 @@
     element-loading-text="正在拼命加载中"
     element-loading-spinner="el-icon-loading"
   >
-    <div class="modules-wrapper">
+    <!-- <div class="modules-wrapper">
       <div class="modules-title">
         <div class="title">客服统计</div>
       </div>
@@ -38,7 +38,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
