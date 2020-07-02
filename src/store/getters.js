@@ -1,0 +1,1 @@
+export const sidebar_routes = state =>state.sidebar_routes
