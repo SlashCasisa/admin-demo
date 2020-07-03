@@ -19,13 +19,13 @@ export default {
         }
     },
     watch: {
-        data_theme(val) {
-            // this.table_row_style = this.setTableRowStyle()
-            this.header_style = this.setHeaderStyel()
-        },
-        page(val) {
+        // data_theme(val) {
+        //     // this.table_row_style = this.setTableRowStyle()
+        //     this.header_style = this.setHeaderStyel()
+        // },
+        // page(val) {
 
-        }
+        // }
     },
     mounted() {
         this.handleListData()
