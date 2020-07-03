@@ -6,7 +6,9 @@ import router from '@/router'
 import NProgress from 'nprogress' // Progress 进度条
 // 这里可根据具体使用的UI组件库进行替换
 /* baseURL 按实际项目来定义 */
-const baseURL = process.env.VUE_APP_URL;
+// const baseURL = process.env.VUE_APP_URL;
+
+const baseURL = 'http://127.0.0.1:3001/'
 
 /* 创建axios实例 */
 const service = axios.default.create({
