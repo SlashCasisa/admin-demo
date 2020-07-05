@@ -5,9 +5,9 @@
     element-loading-text="正在拼命加载中"
     element-loading-spinner="el-icon-loading"
   >
-    <!-- <div class="modules-wrapper">
+    <div class="modules-wrapper">
       <div class="modules-title">
-        <div class="title">客服统计</div>
+        <div class="title">桌面池管理</div>
       </div>
       <div class="modules-content">
         <div class="search-content"></div>
@@ -27,8 +27,8 @@
           </el-table>
           <div class="footer">
             <el-pagination
-              :current-page.sync="page"
-              :page-size="pagesize"
+              :current-page.sync="currentPage"
+              :page-size="pageSize"
               :total="total"
               background
               class="pagination-container"
@@ -38,29 +38,32 @@
           </div>
         </div>
       </div>
-    </div>-->
+    </div>
   </div>
 </template>
 
 <script>
 import TableList from "@/mixins/table_list"; // 列表公共js
-// import api from "@/api/index.js";
+import api from "@/api/index.js";
 
 export default {
   mixins: [TableList],
   data() {
-    return {
-      loading: false, //页面加载
-      loading_list: false, //列表加载
-      table_data: [], // 表格数据
-      currentPage: 1, // 当前页
-      pageSize: 10, //页码条数
-      total: 0
-    };
+    return {};
   },
-  computed: {},
+  computed: {
+    list_api() {
+      return api.getList;
+    },
+    list_params() {
+      return {
+        status: -1,
+        page: this.currentPage
+      };
+    }
+  },
   watch: {},
-  async mounted() {},
+  mounted() {},
   methods: {}
 };
 </script>
