@@ -11,7 +11,7 @@ export default {
   // 新添列表
   addList(data) {
     return service({
-      url: `/api/create`,
+      url: `/create`,
       method: 'post',
       data
     })
@@ -19,7 +19,7 @@ export default {
   //编辑某列
   editList(data) {
     return service({
-      url: '/api/update',
+      url: '/update',
       method: 'post',
       data
     })
@@ -28,7 +28,7 @@ export default {
   // 1.状态 1:表示代办,2:完成,3:删除,-1:全部
   deleteList(data) {
     return service({
-      url: '/api/update_status',
+      url: '/update_status',
       method: 'post',
       data
     })

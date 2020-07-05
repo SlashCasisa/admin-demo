@@ -1,13 +1,15 @@
-import {
-    mapGetters
-} from 'vuex'
+// import {
+//     mapGetters
+// } from 'vuex'
+
+
 export default {
     name: 'table-list',
     components: {},
     computed: {
-        ...mapGetters([
-            'data_theme'
-        ])
+        // ...mapGetters([
+        //     'data_theme'
+        // ])
     },
     data() {
         return {
@@ -18,14 +20,12 @@ export default {
             table_data: [], // 表格数据
             currentPage: 1, // 当前页
             pageSize: 10, //页码条数
-            total: 0
-
+            total: 0, //列表总数
+            detail: {}, //弹出框的内容
+            type: '', //哪种方式打开弹出框
         }
     },
     watch: {
-<<<<<<< HEAD
-
-=======
         // data_theme(val) {
         //     // this.table_row_style = this.setTableRowStyle()
         //     this.header_style = this.setHeaderStyel()
@@ -33,12 +33,35 @@ export default {
         // page(val) {
 
         // }
->>>>>>> ee1b57c634d354c23d14c83aff151aa59bb4b817
     },
     mounted() {
         this.handleListData()
     },
     methods: {
+        //处理时间的函数 在vue调用formatTimestamp(val,'minute')
+        formatTimestamp(_timestamp, format) {
+            if (_timestamp) {
+                let _chuo = _timestamp.toString() + '000';
+                let normal_date;
+                let times = new Date(Number(_chuo));
+                let time_Y = times.getFullYear();
+                let time_M = (times.getMonth() + 1 < 10 ? '0' + (times.getMonth() + 1) : times.getMonth() + 1);
+                let time_D = (times.getDate() < 10 ? '0' + times.getDate() : times.getDate());
+                let time_h = (times.getHours() < 10 ? '0' + times.getHours() : times.getHours());
+                let time_m = (times.getMinutes() < 10 ? '0' + times.getMinutes() : times.getMinutes());
+                let time_s = (times.getSeconds() < 10 ? '0' + times.getSeconds() : times.getSeconds());
+                // normal_date = time_Y + "-" + time_M + "-" + time_D;
+                normal_date = `${time_Y}-${time_M}-${time_D}`
+                if (format === 'minute') {
+                    normal_date = `${time_Y}-${time_M}-${time_D}    ${time_h}:${time_m}`
+                }
+                if (format === 'second') {
+                    normal_date = `${time_Y}-${time_M}-${time_D}    ${time_h}:${time_m}:${time_s}`
+                }
+                return normal_date;
+            }
+            return ''
+        },
         setTableCellName({
             rowIndex
         }) { // table的cell的class名斑马色
@@ -68,7 +91,7 @@ export default {
                 }
             }
         },
-        // // msg获取近一周的日期,//key_msg,user_msg,user_search_msg用到
+        // // msg获取近一周的日期
         // getNowWeekDate() {
         //     const end_time = new Date().getTime() + 3600 * 1000 * 24 * 1
         //     const end = new Date(end_time)
@@ -90,9 +113,9 @@ export default {
             this.loading = true
             try {
                 let res = await this.list_api(this.list_params)
-                console.log(res, 'table list')
                 this.table_data = res.list.rows;
                 this.total = res.list.count;
+                console.log(this.table_data, 'table list')
             } catch (err) {
                 console.log(err)
             } finally {
@@ -108,8 +131,49 @@ export default {
             this.handleListData()
         },
         handleReload() { // 重新加载
-            // this.$router.go()
             this.handleListData()
+        },
+        handleDelete(id) { // 重新加载
+            // 3
+            this.$confirm('此操作将永久删除这条内容, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async () => {
+                let data = {
+                    "id": id,
+                    "status": 3
+                }
+                try {
+                    let res = await this.delete_api(data)
+                    console.log(res, 'resss#')
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功'
+                    });
+                } catch (err) {
+                    console.log(err)
+                    this.$message({
+                        type: 'error',
+                        message: '服务器繁忙，请稍后再试'
+                    });
+                }
+
+
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        },
+        handleDialog(type, row) { //处理弹出框
+            this.type = type
+            if (type == "edit") {
+                console.log(row)
+            } else {
+                this.$refs.tableDialog.openDialog()
+            }
         }
     }
 }
