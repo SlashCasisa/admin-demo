@@ -1,6 +1,10 @@
 <template>
-  <div v-loading="loading" class="page-wrapper" element-loading-text="正在拼命加载中"
-    element-loading-spinner="el-icon-loading">
+  <div
+    v-loading="loading"
+    class="page-wrapper"
+    element-loading-text="正在拼命加载中"
+    element-loading-spinner="el-icon-loading"
+  >
     <div class="modules-wrapper">
       <div class="modules-title">
         <div class="title">桌面池管理</div>
@@ -17,7 +21,12 @@
               </template>
             </el-table-column>
             <!-- <el-table-column prop="date" label="日期" width="180"> -->
-            <el-table-column v-for="item in filterTableColumn" :key="item.prop" :prop="item.prop" :label="item.label">
+            <el-table-column
+              v-for="item in filterTableColumn"
+              :key="item.prop"
+              :prop="item.prop"
+              :label="item.label"
+            >
               <template slot-scope="scope">
                 <tableTemplate :scope="scope" :item="item"></tableTemplate>
               </template>
@@ -30,74 +39,92 @@
             </el-table-column>
           </el-table>
           <div class="footer">
-            <el-pagination :current-page.sync="currentPage" :page-size="pageSize" :total="total" background
-              class="pagination-container" layout="total, prev, pager, next, jumper"
-              @current-change="handleCurrentChange" />
+            <el-pagination
+              :current-page.sync="currentPage"
+              :page-size="pageSize"
+              :total="total"
+              background
+              class="pagination-container"
+              layout="total, prev, pager, next, jumper"
+              @current-change="handleCurrentChange"
+            />
           </div>
         </div>
       </div>
     </div>
-    <tableDialog ref="tableDialog" :detail="detail" :type="type" @closeDialog="handleCurrentChange" />
+    <tableDialog ref="tableDialog" :dialogForm="dialogForm"/>
   </div>
 </template>
 
 <script>
-  import TableList from "@/mixins/table_list"; // 列表公共js
-  import api from "@/api/index.js";
-  import tableTemplate from "@/components/common/tableTemplate.vue"; // 列表table.vue
-  import tableDialog from "@/components/desktopPoolManagementDialog.vue"; // 弹出框页面
-  export default {
-    mixins: [TableList],
-    components: {
-      tableTemplate,
-      tableDialog
+import TableList from "@/mixins/table_list"; // 列表公共js
+import api from "@/api/index.js";
+import tableTemplate from "@/components/common/tableTemplate.vue"; // 列表table.vue
+import tableDialog from "@/components/desktopPoolManagementDialog.vue"; // 弹出框页面
+export default {
+  mixins: [TableList],
+  components: {
+    tableTemplate,
+    tableDialog
+  },
+  data() {
+    return {
+      // label：列表上的header表头内容
+      // prop：数据库字段
+      filterTableColumn: [
+        {
+          label: "ID",
+          prop: "id"
+        },
+        {
+          label: "名称",
+          prop: "name"
+        },
+        {
+          label: "日期",
+          prop: "deadline"
+        },
+        {
+          label: "内容",
+          prop: "content"
+        },
+        {
+          label: "状态",
+          prop: "status"
+        }
+      ],
+      dialogForm: {
+        name: "",
+        deadline: "",
+        content: ""
+      } //弹出框的内容
+    };
+  },
+  computed: {
+    //获取列表api
+    listApi() {
+      return api.getList;
     },
-    data() {
+    //获取列表的参数
+    listParams() {
       return {
-        // label：列表上的header表头内容
-        // prop：数据库字段
-        filterTableColumn: [{
-            label: "ID",
-            prop: "id"
-          },
-          {
-            label: "名称",
-            prop: "name"
-          },
-          {
-            label: "日期",
-            prop: "deadline"
-          },
-          {
-            label: "内容",
-            prop: "content"
-          },
-          {
-            label: "状态",
-            prop: "status"
-          }
-        ],
-
+        status: -1,
+        page: this.currentPage
       };
     },
-    computed: {
-      list_api() {
-        return api.getList;
-      },
-      list_params() {
-        return {
-          status: -1,
-          page: this.currentPage
-        };
-      },
-      delete_api() {
-        return api.deleteList;
-      },
+    //删除某行
+    deleteApi() {
+      return api.deleteList;
     },
-    watch: {},
-    mounted() {},
-    methods: {}
-  };
+    //获取某行
+    getTodoApi() {
+      return api.editList;
+    }
+  },
+  watch: {},
+  mounted() {},
+  methods: {}
+};
 </script>
 <style lang="scss" scoped>
 </style>

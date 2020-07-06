@@ -21,7 +21,6 @@ export default {
             currentPage: 1, // 当前页
             pageSize: 10, //页码条数
             total: 0, //列表总数
-            detail: {}, //弹出框的内容
             type: '', //哪种方式打开弹出框
         }
     },
@@ -111,15 +110,16 @@ export default {
         // 处理列表返回数据
         async handleListData() {
             this.loading = true
+            this.loading_list = true
             try {
-                let res = await this.list_api(this.list_params)
+                let res = await this.listApi(this.listParams)
                 this.table_data = res.list.rows;
                 this.total = res.list.count;
-                console.log(this.table_data, 'table list')
             } catch (err) {
                 console.log(err)
             } finally {
                 this.loading = false
+                this.loading_list = false
             }
         },
         async handleCurrentChange(currentPage) { // 切换页码
@@ -145,8 +145,7 @@ export default {
                     "status": 3
                 }
                 try {
-                    let res = await this.delete_api(data)
-                    console.log(res, 'resss#')
+                    await this.deleteApi(data)
                     this.$message({
                         type: 'success',
                         message: '删除成功'
@@ -157,6 +156,8 @@ export default {
                         type: 'error',
                         message: '服务器繁忙，请稍后再试'
                     });
+                } finally {
+                    this.handleListData()
                 }
 
 
@@ -167,11 +168,28 @@ export default {
                 });
             });
         },
-        handleDialog(type, row) { //处理弹出框
+        async handleDialog(type, row) { //处理弹出框
             this.type = type
             if (type == "edit") {
                 console.log(row)
+                try {
+                    let data = {
+                        id: row.id
+                    }
+                    let res = await this.getTodoApi(data)
+                    this.$refs.tableDialog.openDialog()
+                    this.dialogForm = res.todo
+                } catch (err) {
+                    this.$message({
+                        type: "error",
+                        message: err
+                    })
+                }
+
             } else {
+                for (let [key] of Object.entries(this.dialogForm)) {
+                    this.dialogForm[key] = "";
+                }
                 this.$refs.tableDialog.openDialog()
             }
         }
