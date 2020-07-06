@@ -2,12 +2,17 @@ import router from './router'
 // import store from './store'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css' // Progress 进度条样式
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
+import {
+  getToken,
+  removeToken
+} from '@/utils/cookies/token.js'
 
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach(async (to, from, next) => {
   NProgress.start()
-  const token = Cookies.get('T-ADMIN')
+  const token = getToken()
+  console.log(token, 'permission$$$')
   // 可以取消验权直接登录
   if (token) {
     if (to.path === '/login') {
@@ -16,7 +21,7 @@ router.beforeEach(async (to, from, next) => {
       })
       NProgress.done()
     } else {
-      if (Cookies.get('T-ADMIN')) {
+      if (token) {
         // if(PermissionModule.routes.length === 0){
         //   await PermissionModule.GenerateRoutes(userinfo.menus)//将菜单存入vuex（向后端发请求，获取路由）
         //   router.addRoutes(PermissionModule.dynamicRoutes)
@@ -28,7 +33,7 @@ router.beforeEach(async (to, from, next) => {
         // }
 
       } else {
-        Cookies.remove('T-ADMIN')
+        removeToken()
         next(`/login`)
         NProgress.done()
       }

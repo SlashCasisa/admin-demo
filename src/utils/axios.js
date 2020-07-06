@@ -4,6 +4,9 @@ import {
 } from 'element-ui'
 import router from '@/router'
 import NProgress from 'nprogress' // Progress 进度条
+import {
+  getToken
+} from '@/utils/cookies/token.js'
 // 这里可根据具体使用的UI组件库进行替换
 /* baseURL 按实际项目来定义 */
 // const baseURL = process.env.VUE_APP_URL;
@@ -18,9 +21,10 @@ const service = axios.default.create({
 });
 // request拦截器
 service.interceptors.request.use((config) => {
-  // if(Store.getter.token){
-  //     config.header['token'] = getToken()
-  // }
+  const token = getToken()
+  if (token) {
+    config.headers['token'] = token
+  }
   return config;
 }, (error) => {
   console.log(error) // for debug
