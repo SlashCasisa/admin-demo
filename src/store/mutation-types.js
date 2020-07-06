@@ -1,3 +1,4 @@
 export const SET_MENUS = 'SET_MENUS'
+export const SET_ROLES = 'SET_ROLES'
 export const SET_MENUS_ROUTES = 'SET_MENUS_ROUTES'
 export const SET_SIDEBAR_ROUTES = 'SET_SIDEBAR_ROUTES'

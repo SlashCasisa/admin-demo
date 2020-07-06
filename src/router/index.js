@@ -31,18 +31,7 @@ export const constantRouter = [
     name: 'login',
   },
 
-  // =========无关页面============
-  {
-    path: '*',
-    redirect: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
+
 ]
 
 
@@ -54,7 +43,8 @@ export const asyncRouter = [ // 异步路由
     component: layout,
     meta: {
       title: '桌面管理',
-      icon: 'iconqiyetupu'
+      icon: 'iconqiyetupu',
+      role: ['admin', 'super_editor'] // 页面需要的权限
     },
     name: 'desktopManagement',
     redirect: {
@@ -65,7 +55,8 @@ export const asyncRouter = [ // 异步路由
       component: desktopPoolManagement, // 桌面池管理
       meta: {
         title: '桌面池管理',
-        icon: 'iconqiyetupu'
+        icon: 'iconqiyetupu',
+        role: ['admin', 'super_editor'] // 页面需要的权限
       },
       name: 'desktopPoolManagement',
     }, {
@@ -73,7 +64,8 @@ export const asyncRouter = [ // 异步路由
       component: desktopInformation, // 桌面信息
       meta: {
         title: '桌面信息',
-        icon: 'iconqiyetupu'
+        icon: 'iconqiyetupu',
+        role: ['admin', 'super_editor'] // 页面需要的权限
       },
       name: 'desktopInformation'
     }]
@@ -84,7 +76,8 @@ export const asyncRouter = [ // 异步路由
     component: layout,
     meta: {
       title: '测试',
-      icon: 'iconqiyetupu'
+      icon: 'iconqiyetupu',
+      role: ['super_editor'] // 页面需要的权限
     },
     name: 'test',
     redirect: {
@@ -96,7 +89,8 @@ export const asyncRouter = [ // 异步路由
       name: 'test1',
       meta: {
         title: 'test1',
-        icon: 'iconqiyetupu'
+        icon: 'iconqiyetupu',
+        role: ['super_editor'] // 页面需要的权限
       },
       redirect: {
         path: '/test2'
@@ -107,7 +101,8 @@ export const asyncRouter = [ // 异步路由
         name: 'test2',
         meta: {
           title: 'test2',
-          icon: 'iconqiyetupu'
+          icon: 'iconqiyetupu',
+          role: ['super_editor'] // 页面需要的权限
         }
       }, {
         path: '/a',
@@ -115,7 +110,8 @@ export const asyncRouter = [ // 异步路由
         name: 'test3',
         meta: {
           title: 'test3',
-          icon: 'iconqiyetupu'
+          icon: 'iconqiyetupu',
+          role: ['super_editor'] // 页面需要的权限
         },
         redirect: {
           path: '/s'
@@ -126,7 +122,8 @@ export const asyncRouter = [ // 异步路由
           component: test4,
           meta: {
             title: 'test4',
-            icon: 'iconqiyetupu'
+            icon: 'iconqiyetupu',
+            role: ['super_editor'] // 页面需要的权限
           }
         }]
       }]
@@ -136,10 +133,23 @@ export const asyncRouter = [ // 异步路由
       name: 'test5',
       meta: {
         title: 'test5',
-        icon: 'iconqiyetupu'
+        icon: 'iconqiyetupu',
+        role: ['super_editor'] // 页面需要的权限
       }
     }]
   },
+  // =========无关页面============
+  // {
+  //   path: '*',
+  //   redirect: '/404',
+  //   component: () => import('@/views/404'),
+  //   hidden: true
+  // },
+  // {
+  //   path: '/404',
+  //   component: () => import('@/views/404'),
+  //   hidden: true
+  // },
 ]
 const createRouter = () => new VueRouter({
   scrollBehavior: () => ({

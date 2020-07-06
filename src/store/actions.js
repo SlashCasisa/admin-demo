@@ -11,9 +11,11 @@ const actions = {
   async getMenu({
     commit
   }, data) {
-    await http.getMovieList(data).then(response => {
-      const data = response
-      commit(types.SET_MENUS, data)
+    await http.getMenu(data).then(response => {
+      const menu = response.menus
+      console.log(menu, 'dataeaaa')
+      commit(types.SET_MENUS, menu)
+      commit(types.SET_ROLES, response.roles)
     })
   },
 
