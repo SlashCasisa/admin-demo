@@ -30,6 +30,7 @@
 
 <script>
 import { setToken } from "@/utils/cookies/token.js";
+import api from "@/api/index.js";
 export default {
   name: "Login",
   data() {
@@ -58,6 +59,9 @@ export default {
       redirect: undefined
     };
   },
+  mounted() {
+    console.log(this.$store, "$$$store");
+  },
   watch: {
     $route: {
       handler: function(route) {
@@ -68,21 +72,39 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
           this.loading = true;
-          setToken("doaks99273014");
+          try {
+            let res = await api.login(this.loginForm);
+            this.loading = false;
+            this.$router.push({
+              path: this.redirect || "/"
+            });
+            this.$store.commit("SET_MENUS", res.menus);
+            // setMenu(res.menus);
+            setToken("doaks99273014");
+            this.$message({
+              type: "success",
+              message: "登录成功"
+            });
+          } catch (err) {
+            this.loading = false;
+            this.$message({
+              type: "error",
+              message: err
+            });
+          }
+
           // this.$store.dispatch('Login', this.loginForm).then((res) => {
           //   // console.log(res, 'login')
-          //   this.loading = false
+          //
           //   const login_info = this.$store.state.user.login_info
           //   if (login_info.error_code === 0) {
-          this.$router.push({
-            path: this.redirect || "/"
-          });
+
           //   }
           // }).catch(() => {
-          this.loading = false;
+
           // })
         } else {
           return false;

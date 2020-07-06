@@ -1,10 +1,26 @@
 import service from '@/utils/axios';
 
 export default {
+  // 登录页面获取菜单
+  login(data) {
+    return service({
+      url: `/login`,
+      method: 'post',
+      data
+    })
+  },
+  // 获取菜单
+  getMenu(data) {
+    return service({
+      url: `/getMenu`,
+      method: 'post',
+      data
+    })
+  },
   // 获取列表
   getList(params) {
     return service({
-      url: `list/${params.status}/${params.page}`,
+      url: `/list/${params.status}/${params.page}`,
       method: 'get',
     })
   },

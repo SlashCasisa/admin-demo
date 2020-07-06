@@ -18,7 +18,7 @@ import test5 from '@/views/admin/test/test5.vue'
 
 Vue.use(VueRouter)
 
-const constantRouter = [
+export const constantRouter = [
   // ===========登录页面===========
   {
     path: '/login',
@@ -30,6 +30,24 @@ const constantRouter = [
     },
     name: 'login',
   },
+
+  // =========无关页面============
+  {
+    path: '*',
+    redirect: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
+]
+
+
+
+export const asyncRouter = [ // 异步路由
   // ===========桌面管理===========
   {
     path: '/',
@@ -48,14 +66,16 @@ const constantRouter = [
       meta: {
         title: '桌面池管理',
         icon: 'iconqiyetupu'
-      }
+      },
+      name: 'desktopPoolManagement',
     }, {
       path: '/desktopManagement/desktopInformation',
       component: desktopInformation, // 桌面信息
       meta: {
         title: '桌面信息',
         icon: 'iconqiyetupu'
-      }
+      },
+      name: 'desktopInformation'
     }]
   },
   // ==========test=============
@@ -73,6 +93,7 @@ const constantRouter = [
     children: [{
       path: '/test1',
       component: routerView,
+      name: 'test1',
       meta: {
         title: 'test1',
         icon: 'iconqiyetupu'
@@ -83,6 +104,7 @@ const constantRouter = [
       children: [{
         path: '/test2',
         component: test2,
+        name: 'test2',
         meta: {
           title: 'test2',
           icon: 'iconqiyetupu'
@@ -90,6 +112,7 @@ const constantRouter = [
       }, {
         path: '/a',
         component: routerView,
+        name: 'test3',
         meta: {
           title: 'test3',
           icon: 'iconqiyetupu'
@@ -98,6 +121,7 @@ const constantRouter = [
           path: '/s'
         },
         children: [{
+          name: 'test4',
           path: '/s',
           component: test4,
           meta: {
@@ -109,39 +133,20 @@ const constantRouter = [
     }, {
       path: '/test5',
       component: test5,
+      name: 'test5',
       meta: {
         title: 'test5',
         icon: 'iconqiyetupu'
       }
     }]
   },
-  // =========无关页面============
-  {
-    path: '*',
-    redirect: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
 ]
-
-// const router = new VueRouter({
-//   routes
-// })
 const createRouter = () => new VueRouter({
   scrollBehavior: () => ({
     y: 0
   }),
   routes: constantRouter
 })
-export const asyncRouter = [ // 异步路由
-
-]
-
 const router = createRouter()
 
 export function resetRouter() {
