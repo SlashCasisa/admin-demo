@@ -40,8 +40,6 @@ router.beforeEach(async (to, from, next) => {
                 ...to,
                 replace: true
               }) // hack方法 确保addRoutes添加完成
-              // next()
-
               console.log(router.options.routes, 'router.options.routes')
               NProgress.done()
             })
@@ -62,7 +60,8 @@ router.beforeEach(async (to, from, next) => {
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      next(`/login?redirect=${to.path}`)
+      // next(`/login?redirect=${to.path}`)
+      next('/login')
       NProgress.done()
     }
   }
