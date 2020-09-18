@@ -1,11 +1,16 @@
 <template>
-    <div class="router-view">
-        <router-view />
-    </div>
+<div class="router-view">
+    <router-view :key="key" />
+</div>
 </template>
 
 <script>
-    export default {
-        name: 'routeView'
+export default {
+    name: 'routeView',
+    computed: {
+        key() {
+            return this.$route.fullPath
+        }
     }
+}
 </script>
